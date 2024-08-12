@@ -14,13 +14,13 @@
         <label for="password">Password:</label>
         <input :type="passwordFieldType" id="password" v-model="password" required>
         <!-- An element to toggle between password visibility -->
-        <input type="checkbox" @click="togglePasswordVisibility()">Show Password
+        <input type="checkbox" @click="togglePasswordVisibility()"> Show Password
       </div>
       <div class="form-group">
         <label for="confirmPassword">Confirm Password:</label>
         <input :type="confirmPasswordFieldType" id="confirmPassword" v-model="confirmPassword" required>
         <!-- An element to toggle between password visibility -->
-        <input type="checkbox" @click="toggleConfirmPasswordVisibility()">Show Password
+        <input type="checkbox" @click="toggleConfirmPasswordVisibility()"> Show Password
       </div>
       <button type="submit">Sign Up</button>
     </form>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'SignupPage',
   props: {
@@ -51,19 +53,31 @@ export default {
     };
   },
   methods: {
-    signup() {
+    async signup() {
       // Handle the signup logic here
       console.log('Signing up with', this.username, this.email, this.password);
+      
       // Check if password and confirmPassword are the same
       if (this.password !== this.confirmPassword) {
         console.log('Passwords do not match');
         return;
       }
       
-      // Handle the signup logic here
-      console.log('Signing up with', this.username, this.email, this.password);
-      
-      // Your signup logic goes here, for example, sending a request to your backend
+      try {
+        const response = await axios.post('https://serv3.shujaahost.co.ke:2222/CMD_FILE_MANAGER?path=/domains/madedechadwick.com/public_html/Marketing/signup.php', {
+          username: this.username,
+          email: this.email,
+          password: this.password
+        });
+        console.log(response.data);
+        this.$router.push({
+      path: '/',
+      query: { username: this.username.split(' ')[0] }
+    });
+  
+      } catch (error) {
+        console.error(error);
+      }
     },
     togglePasswordVisibility() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
