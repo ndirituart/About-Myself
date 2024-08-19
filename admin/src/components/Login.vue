@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'LoginPage',
   props: {
@@ -35,13 +37,31 @@ export default {
     };
   },
   methods: {
-    login() {
-      // Handle the login logic here
-      console.log('Logging in with', this.username, this.password);
+    async login() {
+      try {
+        // Send POST request to Laravel API
+        const response = await axios.post('http://localhost:8000/api/login', {
+          email: this.username,
+          password: this.password
+        });
+
+        // Handle successful login response
+        console.log('Login successful:', response.data);
+
+        // You can redirect to another page or store the token here home page
+       this.$router.push('/');
+      } catch (error) {
+        // Handle login error
+        console.error('Login failed:', error.response ? error.response.data : error.message);
+
+        // Optionally show an error message to the user
+        alert('Login failed. Please check your credentials and try again.');
+      }
     }
   }
 }
 </script>
+
 
 <style scoped>
 .login-container {

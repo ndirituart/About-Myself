@@ -7,6 +7,7 @@
       <li><a href="#" class="dashboard-link">Customer Relations</a></li>
     </ul>
   </div>
+  <div class="background-overlay" v-if="visible"></div>
 </template>
 
 <script>
@@ -23,11 +24,16 @@ export default {
 
 <style scoped>
 .DashBoard {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 25%;
   background-color: #1A1D23; /* Dark blue background for the dashboard */
   padding: 20px;
-  margin: 20px 0;
+  margin: 0;
   border-radius: 10px; /* Rounded corners for the dashboard container */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a card-like effect */
+  z-index: 1;
 }
 
 .DashBoard ul {
@@ -65,5 +71,15 @@ export default {
   color: #1DA1F2; /* Change text color when focused to Twitter's blue */
   outline: none; /* Remove default focus outline */
   box-shadow: 0 0 0 2px #1DA1F2; /* Add a blue outline on focus */
+}
+
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 0;
 }
 </style>
